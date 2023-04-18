@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>作用域和闭包</title>
+</head>
+
+<body>
+    <h1>作用域和闭包</h1>
+</body>
+<script>
+    //this的不同应用场景，如何取值
+    //手写bind函数
+    //实际开发
+    //作用域和自由变量
+    // let a = 0 
+    // function fn2() {
+    //     let a2 = 100
+    //     function fn3() {
+    //         let a3 = 200
+    //         function fn4 () {
+    //             let a4 = 300
+    //             return a + a1 + a2 + a3
+    //         } 
+    //         fn4()
+    //     }
+    //     fn3()
+    // }
+    // fn2()
+    if (true) {
+        let x = 100
+    }
+    //  console.log(x)  //报错，未定义
+    //创建 10 个 ‘<a>’ 标签，点击的时候弹出来对应的序号
+    let i, a1
+    for (i = 0; i < 10; i++) {
+        a = document.createElement('a')
+        a.innerHTML = i + '<br>'
+        a.addEventListener('click', function (e) {
+            e.preventDefault()
+            alert(i)
+        })
+        document.body.appendChild(a)
+    }
+    //闭包
+    function create() {
+        const a = 100
+        return function () {
+            console.log(a)
+        }
+    }
+    const fn = create()
+    const a = 200
+    fn()
+    //函数作为参数
+    function print(fn) {
+        let a2 = 200
+        fn()
+    }
+    let a2 = 100
+    function fn() {
+        console.log(a2)
+    }       //变量的查找是在函数定义的时候，不是在函数执行的时候   变量是向上级作用域查找
+    print(fn)
+    //this 取什么值是在执行的时候，不是在定义的时候
+    function fn1() {
+        console.log(this)
+    }
+    fn1()
+    fn1.call({ x: 100 })
+    const fn2 = fn1.bind({ x: 200 })
+    fn2()
+    const zhangsan = {
+        name: "张三",
+        sayHi() {
+            // this 当前对象
+            console.log(this)
+        },
+        wait() {
+            settimeout(function () {
+                cosole.log(this)
+            })
+        }
+    }
+    const zhangsan2 = {
+        name: "张三",
+        sayHi() {
+            cosole.log(this)
+        },
+        waitAgain() {
+            setTimeout(() => {
+                console.log(this)
+            })
+        }
+    }
+    class People {
+        constructor(name) {
+            this.name = name
+            this.age = 20
+        }
+        sayHi() {
+            console.log(this)
+        }
+    }
+    const zhangsan3 = new People("张三")
+    zhangsan3.sayHi()
+    //bind
+    function fn3(a, b, c) {
+        console.log("this", this)
+        console.log(a, b, c)
+        return "this is fn3"
+    }
+    const fn4 = fn3.bind1({ x: 100 }, 10, 20, 30)
+    const res = fn4()
+    console.log(res)
+    Function.prototype.bind1 = function () {
+        //将参数拆解为数组
+        const args = Array.prototype.slice.call(arguments)
+        //获取 this (数组第一项)
+        const t = args.shift()
+        //fn3.bind(...) 中的 fn1
+        const self = this
+        //返回一个函数
+        return function () {
+            return self.apply(t, args)
+        }
+    }
+    function fn3(a, b, c) {
+        console.log("this", this)
+        console.log(a, b, c)
+        return "this is fn3"
+    }
+    // const fn4 = fn3.bind1({ x: 100 }, 10, 20, 30)
+    // const res = fn4()
+    // console.log(res)
+    //闭包隐藏数据，只提供 API
+    function crateCache() {
+        const data = {}
+        return {
+            set:function (key , val) {
+                data[key] = val
+            },
+            get: function (key) {
+                return data[key]
+            }
+        }
+    }
+    const c = crateCache
+    c.set("a",100)
+    console.log(c.get("a"))
+    let  a
+    for (let i = 0; i < 10; i++) {
+        a = document.createElement('a')
+        a.innerHTML = i + '<br>'
+        a.addEventListener('click', function (e) {
+            e.preventDefault()
+            alert(i)
+        })
+        document.body.appendChild(a)
+    }
+</script>
+
+</html>
