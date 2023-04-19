@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>dom节点操作</title>
+    </head>
+    <body>
+        <p class="container" id="div1" class="red">
+            <span>一段文字1</span>
+            <span>一段文字2</span>
+            <span>一段文字3</span>
+            <p>小荷才露尖尖角</p>
+            <p>早有蜻蜓立上头</p>
+            <p>乱花渐欲迷人眼</p>
+        </p>
+        <p id="div2"></p>
+        <ul id="list"></ul>
+    </body>
+    <script>
+        // const div1 = document.getElementById('div1')
+        // console.log('div1' , div1)
+        // const divList = document.getElementsByTagName('div') //集合
+        // consle.log('divList.length' ,divList.length)
+        // console.log('divList[0]',divlist[0])
+        // const containerList = document.getElementsByClassName('container')
+        // console.log('containerlist.length', containerList(1))
+        // console.log('containerList[1]', containerList[1])
+        // const Plist = document.querySelectorAll('span')
+        // console.log('pList', Plist)
+        // const pList = document.querySelectorAll('span')
+        // const p1 = pList[0]
+        // p1.style.width = '100px'
+        // console.log(p.stayle.width) //宽度
+        // console.log((p1.stayle.width))  //空字符串  ''
+        // console.log( p1.style.className)
+        // console.log( p1.style)
+        // p1.className = 'red'
+        // //property 形式  变量
+        // console.log( p1.nodeName)  //不常用
+        // console.log( p1.nodeType)   //1
+        // //attribute  标签  会改变HTML结构  两者都有可能引起DOM的重新渲染
+        // const pList = document.querySelectorAll('span')
+        // console.log(p1.setAttribute('data-name', 'imooc'))
+        // consol.log(p1.getAttribute('data-name'))
+        // p1.setAttribute('style', 'font-size:  50px')
+        // console.log( p1.getAttribute('style'))
+        // //新增节点
+        // const div1 = document.getElementById('div1')
+        // const divv2 = document.getElementById('div2')
+        // //新建节点
+        // const p1 = document.createElement('p')
+        // p1.innerHTML = '乱花渐欲迷人眼'
+        // dvi1.appendChild(p1)
+        // //移动节点
+        // const p1 = document.getElementById('p1')
+        // div2.appendChild(p1)
+        // //获取父元素
+        // console.log( p1.parentNode)
+        // //获取子元素列表
+        // const div1ChildNodes = div1.childNodes
+        // console.log(div1.childNodes)
+        // const div1ChildNodesP = Array.prototype.slice.call(div1.childNodes).filter(child => {
+        //     if(child.nodeType === 1) {
+        //         return true
+        //     }
+        //     return false
+        // })
+        // console.log('div1ChildNodesP' , div1ChildNodesP)
+        // //删除元素
+        // div1.removeChild(div1ChildNodesP[0]   ) 
+        // const div1 = document.getElementById('div1')
+        // const child = div1.childNodes
+        // div1.removeChild(child[0])
+        // //DOM性能
+        // //不缓存 DOM 查询结果
+        // for(let i = 0 ; i < document.getElementsByTagName('p').length ; i++) {
+        //     //每次循环，都会计算 length， 频繁进行 DOM 查询
+        // }
+        // //缓存 DOM 查询结果
+        // const pList = document.getElementByTagName('p')
+        // const length = pList.length
+        // for ( let i = 0 ; i< length ; i++ ) {
+        //     //缓存 length , 只进行一次 DOM 查询
+        // }
+        // //将频繁操作改为一次性操作
+        const listNode = document.getElementById('list')
+        const list = document.getElementById('list')
+            //创建一个文档片段
+        const frag = document.createDocumentFragment()
+        for(let i = 0 ; i< 10 ; i++) {
+            const li = document.createElement('li')
+            li.innerHTML = `List item ${i}`
+          //  list.appendChild(li)
+            //先插入文档片段中
+            frag.appendChild(li)
+        }
+        //都完成之后，再统一插入到  DOM 结构中
+        list.appendChild(frag)
+        
+    </script>
+</html>
